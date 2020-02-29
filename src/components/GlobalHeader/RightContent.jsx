@@ -6,6 +6,7 @@ import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
 import styles from './index.less';
+
 const ENVTagColor = {
   dev: 'orange',
   test: 'green',
