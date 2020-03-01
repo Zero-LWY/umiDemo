@@ -129,6 +129,19 @@ export default {
               component: './ListTableList',
             },
             {
+              name: 'account',
+              icon: 'user',
+              path: '/account',
+              routes: [
+                {
+                  name: 'center',
+                  icon: 'smile',
+                  path: '/account/center',
+                  component: './account/center',
+                },
+              ],
+            },
+            {
               component: './404',
             },
           ],
@@ -188,9 +201,11 @@ export default {
   proxy: {
     '/api': {
       target: 'http://localhost:8080',
-      pathRewrite: { '^/api': '' },
-      changeOrigin: true
-    }
+      pathRewrite: {
+        '^/api': '',
+      },
+      changeOrigin: true,
+    },
   },
   block: {
     defaultGitUrl: 'https://github.com/ant-design/pro-blocks',
