@@ -123,10 +123,40 @@ export default {
               ],
             },
             {
-              name: 'list.table-list',
-              icon: 'table',
+              name: '菜单列表',
+              icon: 'UnorderedListOutlined',
+              path: '/menu',
+              component: './menu',
+            },
+            {
+              name: '区域列表',
+              icon: 'BankOutlined',
               path: '/list',
               component: './ListTableList',
+            },
+            {
+              name: '部门管理',
+              icon: 'ApartmentOutlined',
+              path: '/dept',
+              component: './dept',
+            },
+            {
+              name: '字典设置',
+              icon: 'ReadOutlined',
+              path: '/dict',
+              component: './dict',
+            },
+            {
+              name: '用户列表',
+              icon: 'TeamOutlined',
+              path: '/userlist',
+              component: './userList',
+            },
+            {
+              name: '角色管理',
+              icon: 'ContactsOutlined',
+              path: '/rolelist',
+              component: './roleList',
             },
             {
               name: 'account',
@@ -134,30 +164,18 @@ export default {
               path: '/account',
               routes: [
                 {
-                  name: 'center',
-                  icon: 'smile',
+                  name: '个人中心',
+                  icon: 'SolutionOutlined',
                   path: '/account/center',
                   component: './account/center',
                 },
                 {
                   name: '个人设置',
-                  icon: 'smile',
+                  icon: 'EditOutlined',
                   path: '/account/settings',
                   component: './account/settings',
                 },
               ],
-            },
-            {
-              name: '查询表格',
-              icon: 'smile',
-              path: '/menu',
-              component: './menu',
-            },
-            {
-              name: '查询表格',
-              icon: 'smile',
-              path: '/dept',
-              component: './dept',
             },
             {
               component: './404',
