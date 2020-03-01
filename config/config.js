@@ -139,6 +139,12 @@ export default {
                   path: '/account/center',
                   component: './account/center',
                 },
+                {
+                  name: '个人设置',
+                  icon: 'smile',
+                  path: '/account/settings',
+                  component: './account/settings',
+                },
               ],
             },
             {
