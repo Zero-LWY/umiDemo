@@ -148,6 +148,18 @@ export default {
               ],
             },
             {
+              name: '查询表格',
+              icon: 'smile',
+              path: '/menu',
+              component: './menu',
+            },
+            {
+              name: '查询表格',
+              icon: 'smile',
+              path: '/dept',
+              component: './dept',
+            },
+            {
               component: './404',
             },
           ],
