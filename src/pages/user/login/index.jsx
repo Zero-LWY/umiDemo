@@ -1,7 +1,6 @@
 import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
 import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
-import { Link } from 'umi';
 import { connect } from 'dva';
 import LoginFrom from './components/Login';
 import styles from './style.less';
@@ -23,7 +22,7 @@ const Login = props => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
-  const [type, setType] = useState('account');
+  const [type, setType] = useState('User');
 
   const handleSubmit = values => {
     const { dispatch } = props;
@@ -36,14 +35,14 @@ const Login = props => {
   return (
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="account" tab="账户密码登录">
-          {status === 'error' && loginType === 'account' && !submitting && (
-            <LoginMessage content="账户或密码错误（admin/ant.design）" />
+        <Tab key="User" tab="账户密码登录">
+          {status === 'error' && loginType === 'User' && !submitting && (
+            <LoginMessage content="账户或密码错误" />
           )}
 
           <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
+            name="loginName"
+            placeholder="用户名"
             rules={[
               {
                 required: true,
@@ -53,7 +52,7 @@ const Login = props => {
           />
           <Password
             name="password"
-            placeholder="密码: ant.design"
+            placeholder="密码"
             rules={[
               {
                 required: true,
@@ -62,21 +61,21 @@ const Login = props => {
             ]}
           />
         </Tab>
-        <Tab key="mobile" tab="手机号登录">
+        <Tab key="mobile" tab="邮箱登陆">
           {status === 'error' && loginType === 'mobile' && !submitting && (
             <LoginMessage content="验证码错误" />
           )}
           <Mobile
             name="mobile"
-            placeholder="手机号"
+            placeholder="邮箱"
             rules={[
               {
                 required: true,
-                message: '请输入手机号！',
+                message: '请输入邮箱！',
               },
               {
-                pattern: /^1\d{10}$/,
-                message: '手机号格式错误！',
+                pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+                message: '邮箱格式错误！',
               },
             ]}
           />
@@ -112,9 +111,9 @@ const Login = props => {
           <AlipayCircleOutlined className={styles.icon} />
           <TaobaoCircleOutlined className={styles.icon} />
           <WeiboCircleOutlined className={styles.icon} />
-          <Link className={styles.register} to="/user/register">
+          {/* <Link className={styles.register} to="/user/register">
             注册账户
-          </Link>
+          </Link> */}
         </div>
       </LoginFrom>
     </div>
