@@ -98,7 +98,7 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/user/login',
             },
             {
               path: '/welcome',
@@ -236,11 +236,9 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'http://localhost:8080',
-      pathRewrite: {
-        '^/api': '',
-      },
+      target: 'http://localhost:8080/',
       changeOrigin: true,
+      pathRewrite: { '^/api': '' },
     },
   },
   block: {
