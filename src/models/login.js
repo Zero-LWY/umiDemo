@@ -3,6 +3,7 @@ import { router } from 'umi';
 import { fakeAccountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+import { reloadAuthorized } from '@/components/Authorized/Authorized';
 
 const Model = {
   namespace: 'login',
@@ -20,7 +21,9 @@ const Model = {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
-
+        // 设置权限
+        setAuthority('admin');
+        reloadAuthorized();
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
 
