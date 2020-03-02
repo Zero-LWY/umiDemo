@@ -3,7 +3,6 @@ import { router } from 'umi';
 import { fakeAccountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '@/components/Authorized/Authorized';
 
 const Model = {
   namespace: 'login',
