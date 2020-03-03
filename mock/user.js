@@ -5,9 +5,20 @@ function getFakeCaptcha(req, res) {
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
-    name: 'Serati Ma',
+     "userId": 1,
+     "deptId": 2,
+     "loginName": "admin",
+     "password": "24e3829ffe5522e801fd4c80816e7331e33445ee3ed510f1fefa5592",
+     "userNo": "0001",
+    // "userName": "admin",
+    // "email": "13226546492@163.com",
+    // "phone": "12345",
+    // "mobile": "45645",
+    // "updateBy": "1",
+    // "remarks": "78945"
+    name: 'admin',
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-    userid: '00000001',
+    userid: '0001',
     email: 'antdesign@alipay.com',
     signature: '海纳百川，有容乃大',
     title: '交互专家',
