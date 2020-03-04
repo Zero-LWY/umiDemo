@@ -1,6 +1,7 @@
 import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox } from 'antd';
+import { Alert, Checkbox, message } from 'antd';
 import React, { useState } from 'react';
+import { router } from 'umi';
 import { connect } from 'dva';
 import LoginFrom from './components/Login';
 import styles from './style.less';
@@ -29,6 +30,11 @@ const Login = props => {
     dispatch({
       type: 'login/login',
       payload: { ...values, type },
+    }).then(res =>{
+      if(res === "error"){
+        message.error('账号或密码错误');
+      }
+      router.replace(res || '/welcome');
     });
   };
 

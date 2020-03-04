@@ -85,6 +85,9 @@ export default {
           path: '/user/login',
           component: './user/login',
         },
+        {
+          component: './user/login',
+        },
       ],
     },
     {

@@ -37,9 +37,10 @@ const Model = {
             return;
           }
         }
-
-        router.replace(redirect || '/welcome');
+        return redirect;
+        //router.replace(redirect || '/welcome');
       }
+      return "error";
     },
 
     logout() {
