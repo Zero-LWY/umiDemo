@@ -97,7 +97,6 @@ export default {
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
@@ -131,41 +130,48 @@ export default {
               icon: 'UnorderedListOutlined',
               path: '/menu',
               component: './menu',
+              authority: ['admin'],
             },
             {
               name: 'area',
               icon: 'BankOutlined',
               path: '/list',
               component: './ListTableList',
+              authority: ['admin', 'user'],
             },
             {
               name: 'dept',
               icon: 'ApartmentOutlined',
               path: '/dept',
               component: './dept',
+              authority: ['admin', 'user'],
             },
             {
               name: 'dict',
               icon: 'ReadOutlined',
               path: '/dict',
               component: './dict',
+              authority: ['admin'],
             },
             {
               name: 'users',
               icon: 'TeamOutlined',
               path: '/userlist',
               component: './userList',
+              authority: ['admin', 'user'],
             },
             {
               name: 'role',
               icon: 'ContactsOutlined',
               path: '/rolelist',
               component: './roleList',
+              authority: ['admin', 'user'],
             },
             {
               name: 'account',
               icon: 'user',
               path: '/account',
+              authority: ['admin', 'user'],
               routes: [
                 {
                   name: 'user',

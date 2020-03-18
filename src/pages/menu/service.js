@@ -1,18 +1,20 @@
 import request from '@/utils/request';
 
 export async function queryRule(params) {
-  return request('/api/rule', {
+  return  (request('/api/menu', {
+    method: 'GET',
     params,
-  });
+    
+  }));
 }
 export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: { ...params, method: 'delete' },
+  return request('/api/menu/', {
+    method: 'DELETE',
+    data: { ...params},
   });
 }
 export async function addRule(params) {
-  return request('/api/rule', {
+  return request('/api/menu/', {
     method: 'POST',
     data: { ...params, method: 'post' },
   });

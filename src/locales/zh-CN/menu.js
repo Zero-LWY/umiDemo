@@ -49,7 +49,7 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
-  'menu.menu':"菜单列表",
+  'menu.menu':"菜单管理",
   'menu.area':'区域列表',
   'menu.dept':'部门管理',
   'menu.dict':'字典设置',

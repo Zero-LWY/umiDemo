@@ -19,7 +19,7 @@ const CreateForm = props => {
   return (
     <Modal
       destroyOnClose
-      title="新建规则"
+      title="新建菜单"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => onCancel()}
@@ -31,18 +31,81 @@ const CreateForm = props => {
         wrapperCol={{
           span: 15,
         }}
-        label="描述"
+        label="菜单名称"
       >
-        {form.getFieldDecorator('desc', {
+      
+        {form.getFieldDecorator('name', {
           rules: [
             {
               required: true,
-              message: '请输入至少五个字符的规则描述！',
-              min: 5,
+              message: '菜单名称不能为空',
             },
           ],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+
+      <FormItem
+        labelCol={{
+          span: 5,
+        }}
+        wrapperCol={{
+          span: 15,
+        }}
+        label="链接"
+      >
+      
+        {form.getFieldDecorator('href', {
+          rules: [
+            {
+              required: true,
+              message: '路由不能为空',
+            },
+          ],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+
+      <FormItem
+        labelCol={{
+          span: 5,
+        }}
+        wrapperCol={{
+          span: 15,
+        }}
+        label="排序"
+      >
+      
+        {form.getFieldDecorator('sort', {
+          rules: [
+            {
+              required: true,
+              message: '排序不能为空',
+            },
+          ],
+        })(<Input placeholder="请输入" />)}
+      </FormItem> 
+
+      <FormItem
+        labelCol={{
+          span: 5,
+        }}
+        wrapperCol={{
+          span: 15,
+        }}
+        label="父节点"
+      >
+      
+        {form.getFieldDecorator('parentId', {
+          rules: [
+            {
+              required: true,
+              message: '父节点不能为空',
+            },
+          ],
+        })(<Input placeholder="请输入" />)}
+      </FormItem> 
+
+
+
     </Modal>
   );
 };

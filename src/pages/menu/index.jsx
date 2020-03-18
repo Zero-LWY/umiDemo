@@ -1,7 +1,7 @@
 import { DownOutlined, PlusOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Button, Divider, Dropdown, Menu, message } from 'antd';
+import { Button, Divider, Dropdown, Menu, message, Popconfirm } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -18,7 +18,10 @@ const handleAdd = async fields => {
 
   try {
     await addRule({
-      desc: fields.desc,
+      name: fields.name,
+      sort: fields.sort,
+      href: fields.href,
+      parentId: fields.parentId,
     });
     hide();
     message.success('添加成功');
@@ -63,7 +66,7 @@ const handleRemove = async selectedRows => {
 
   try {
     await removeRule({
-      key: selectedRows.map(row => row.key),
+      id: selectedRows.id,
     });
     hide();
     message.success('删除成功，即将刷新');
@@ -82,45 +85,40 @@ const TableList = () => {
   const actionRef = useRef();
   const columns = [
     {
-      title: '规则名称',
+      title: '序号',
+      dataIndex: 'id',
+    },
+    {
+      title: '菜单名称',
       dataIndex: 'name',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
+      title: '链接',
+      dataIndex: 'href',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      renderText: val => `${val} 万`,
+      title: '排序',
+      dataIndex: 'sort',
+      sorter: (a,b) => a.sort - b.sort,
     },
     {
       title: '状态',
-      dataIndex: 'status',
+      dataIndex: 'delFlag',
       valueEnum: {
         0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '运行中',
+          text: '未弃用',
           status: 'Processing',
         },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
+        1: {
+          text: '弃用',
+          status: 'Default',
         },
       },
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
+      title: '最近更新时间',
+      dataIndex: 'updateDate',
+      sorter: (a,b) => a.updateDate - b.updateDate,
       valueType: 'dateTime',
     },
     {
@@ -138,7 +136,9 @@ const TableList = () => {
             配置
           </a>
           <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <Popconfirm title="Sure to delete?" onConfirm={() => handleRemove(record)}>
+              <a>删除</a>
+          </Popconfirm>
         </>
       ),
     },
@@ -148,7 +148,7 @@ const TableList = () => {
       <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         toolBarRender={(action, { selectedRows }) => [
           <Button icon={<PlusOutlined />} type="primary" onClick={() => handleModalVisible(true)}>
             新建
@@ -166,7 +166,6 @@ const TableList = () => {
                   selectedKeys={[]}
                 >
                   <Menu.Item key="remove">批量删除</Menu.Item>
-                  <Menu.Item key="approval">批量审批</Menu.Item>
                 </Menu>
               }
             >
@@ -176,22 +175,7 @@ const TableList = () => {
             </Dropdown>
           ),
         ]}
-        tableAlertRender={(selectedRowKeys, selectedRows) => (
-          <div>
-            已选择{' '}
-            <a
-              style={{
-                fontWeight: 600,
-              }}
-            >
-              {selectedRowKeys.length}
-            </a>{' '}
-            项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
-          </div>
-        )}
+        
         request={params => queryRule(params)}
         columns={columns}
         rowSelection={{}}
