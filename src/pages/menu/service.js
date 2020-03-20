@@ -7,8 +7,20 @@ export async function queryRule(params) {
     
   }));
 }
+export async function queryPermission(params) {
+  return (request('/api/menu/permission', {
+    method: 'GET',
+    params,
+  }));
+}
 export async function removeRule(params) {
   return request('/api/menu/', {
+    method: 'DELETE',
+    data: { ...params},
+  });
+}
+export async function removePermission(params) {
+  return request('/api/menu/permission', {
     method: 'DELETE',
     data: { ...params},
   });

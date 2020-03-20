@@ -91,6 +91,26 @@ const CreateForm = props => {
         wrapperCol={{
           span: 15,
         }}
+        label="目标"
+      >
+      
+        {form.getFieldDecorator('target', {
+          rules: [
+            {
+              required: true,
+              message: '目标不能为空',
+            },
+          ],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+
+      <FormItem
+        labelCol={{
+          span: 5,
+        }}
+        wrapperCol={{
+          span: 15,
+        }}
         label="父节点"
       >
       

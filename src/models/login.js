@@ -21,7 +21,7 @@ const Model = {
         const params = getPageQuery();
         let { redirect } = params;
         // 设置权限
-        setAuthority(response.role);
+        setAuthority(response.role.replace(/\[|]/g,'').split(",").map(function(n) { return n.trim(); }));
         reloadAuthorized();
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
