@@ -19,11 +19,17 @@ const LoginMessage = ({ content }) => (
   />
 );
 
+
+const sendCode = email =>{
+console.log(email);
+}
+
+
 const Login = props => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
-  const [type, setType] = useState('User');
+  const [type, setType] = useState('PASSWORD');
 
   const handleSubmit = values => {
     const { dispatch } = props;
@@ -41,8 +47,8 @@ const Login = props => {
   return (
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="User" tab="账户密码登录">
-          {status === 'error' && loginType === 'User' && !submitting && (
+        <Tab key="PASSWORD" tab="账户密码登录">
+          {status === 'error' && loginType === 'PASSWORD' && !submitting && (
             <LoginMessage content="账户或密码错误" />
           )}
 
@@ -67,12 +73,12 @@ const Login = props => {
             ]}
           />
         </Tab>
-        <Tab key="mobile" tab="邮箱登陆">
-          {status === 'error' && loginType === 'mobile' && !submitting && (
+        <Tab key="EMAIL" tab="邮箱登陆">
+          {status === 'error' && loginType === 'EMAIL' && !submitting && (
             <LoginMessage content="验证码错误" />
           )}
           <Mobile
-            name="mobile"
+            name="email"
             placeholder="邮箱"
             rules={[
               {
@@ -86,9 +92,10 @@ const Login = props => {
             ]}
           />
           <Captcha
-            name="captcha"
+            name="code"
             placeholder="验证码"
-            countDown={120}
+            countDown={60}
+            onClick={() => sendCode(email)}
             getCaptchaButtonText=""
             getCaptchaSecondText="秒"
             rules={[

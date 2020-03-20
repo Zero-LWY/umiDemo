@@ -6,6 +6,6 @@ export async function fakeAccountLogin(params) {
     data: params,
   });
 }
-export async function getFakeCaptcha(mobile) {
-  return request(`/api/login/captcha?mobile=${mobile}`);
+export async function getFakeCaptcha(email) {
+  return request(`/api/email/send?mailAddress=${email}`);
 }
