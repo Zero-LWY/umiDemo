@@ -55,6 +55,10 @@ const handleUpdate = async fields => {
     return false;
   }
 };
+
+
+const TableList = () => {
+
 /**
  *  删除节点
  * @param selectedRows
@@ -70,6 +74,7 @@ const handleRemove = async selectedRows => {
     });
     hide();
     message.success('删除成功，即将刷新');
+    actionRef.current.reload();
     return true;
   } catch (error) {
     hide();
@@ -78,7 +83,6 @@ const handleRemove = async selectedRows => {
   }
 };
 
-const TableList = () => {
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [stepFormValues, setStepFormValues] = useState({});
