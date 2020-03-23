@@ -1,7 +1,7 @@
 import { DownOutlined, PlusOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Button, Divider, Dropdown, Menu, message } from 'antd';
+import { Button, Divider, Dropdown, Menu, message ,Popconfirm } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -17,9 +17,7 @@ const handleAdd = async fields => {
   const hide = message.loading('正在添加');
 
   try {
-    await addRule({
-      desc: fields.desc,
-    });
+    await addRule({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -52,76 +50,83 @@ const handleUpdate = async fields => {
     return false;
   }
 };
-/**
- *  删除节点
- * @param selectedRows
- */
 
-const handleRemove = async selectedRows => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-
-  try {
-    await removeRule({
-      key: selectedRows.map(row => row.key),
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
 
 const TableList = () => {
+   /**
+   *  删除节点
+   * @param selectedRows
+   */
+  const handleRemove = async selectedRows => {
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+    try {
+      await removeRule({
+        id: selectedRows.id,
+      });
+      hide();
+      message.success('删除成功，即将刷新');
+      actionRef.current.reload();
+      return true;
+    } catch (error) {
+      hide();
+      message.error('删除失败，请重试');
+      return false;
+    }
+  };
+  const [sorter, setSorter] = useState('');
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [stepFormValues, setStepFormValues] = useState({});
   const actionRef = useRef();
   const columns = [
     {
-      title: '规则名称',
+      title: '编号',
+      dataIndex: 'id',
+      sorter: (a,b) => a.id - b.id,
+      hideInForm: true,
+    },
+    {
+      title: '父级编号',
+      dataIndex: 'parentId',
+      hideInSearch: true,
+    },
+    {
+      title: '部门编码',
+      dataIndex: 'code',
+      rules: [
+        {
+          required: true,
+          message: '部门编码为必填项',
+        },
+      ],
+    },
+    {
+      title: '部门名称',
       dataIndex: 'name',
+      rules: [
+        {
+          required: true,
+          message: '部门名称为必填项',
+        },
+      ],
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
+      title: '管理人',
+      dataIndex: 'master',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      renderText: val => `${val} 万`,
+      title: '排序',
+      dataIndex: 'sort',
+      sorter: (a,b) => a.sort - b.sort,
+      hideInSearch: true,
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '运行中',
-          status: 'Processing',
-        },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
-        },
-      },
-    },
-    {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
+      title: '更新时间',
+      dataIndex: 'updateDate',
+      sorter: (a,b) => a.updateDate - b.updateDate,
       valueType: 'dateTime',
+      hideInForm: true,
     },
     {
       title: '操作',
@@ -138,79 +143,49 @@ const TableList = () => {
             配置
           </a>
           <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <Popconfirm title="Sure to delete?" onConfirm={() => {handleRemove(record)}}>
+              <a>删除</a>
+          </Popconfirm>
         </>
       ),
     },
   ];
   return (
     <PageHeaderWrapper>
-      <ProTable
+    <ProTable
         headerTitle="查询表格"
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         toolBarRender={(action, { selectedRows }) => [
           <Button icon={<PlusOutlined />} type="primary" onClick={() => handleModalVisible(true)}>
             新建
           </Button>,
-          selectedRows && selectedRows.length > 0 && (
-            <Dropdown
-              overlay={
-                <Menu
-                  onClick={async e => {
-                    if (e.key === 'remove') {
-                      await handleRemove(selectedRows);
-                      action.reload();
-                    }
-                  }}
-                  selectedKeys={[]}
-                >
-                  <Menu.Item key="remove">批量删除</Menu.Item>
-                  <Menu.Item key="approval">批量审批</Menu.Item>
-                </Menu>
-              }
-            >
-              <Button>
-                批量操作 <DownOutlined />
-              </Button>
-            </Dropdown>
-          ),
+          
         ]}
-        tableAlertRender={(selectedRowKeys, selectedRows) => (
-          <div>
-            已选择{' '}
-            <a
-              style={{
-                fontWeight: 600,
-              }}
-            >
-              {selectedRowKeys.length}
-            </a>{' '}
-            项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
-          </div>
-        )}
+        
         request={params => queryRule(params)}
         columns={columns}
         rowSelection={{}}
       />
-      <CreateForm
-        onSubmit={async value => {
-          const success = await handleAdd(value);
+      <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
+        <ProTable
+          onSubmit={async value => {
+            const success = await handleAdd(value);
 
-          if (success) {
-            handleModalVisible(false);
+            if (success) {
+              handleModalVisible(false);
 
-            if (actionRef.current) {
-              actionRef.current.reload();
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
             }
-          }
-        }}
-        onCancel={() => handleModalVisible(false)}
-        modalVisible={createModalVisible}
-      />
+          }}
+          rowKey="id"
+          type="form"
+          columns={columns}
+          rowSelection={{}}
+        />
+      </CreateForm>
       {stepFormValues && Object.keys(stepFormValues).length ? (
         <UpdateForm
           onSubmit={async value => {

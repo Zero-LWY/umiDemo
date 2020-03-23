@@ -1,50 +1,19 @@
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Input, Modal } from 'antd';
 import React from 'react';
-
-const FormItem = Form.Item;
+import { Modal } from 'antd';
 
 const CreateForm = props => {
-  const { modalVisible, form, onSubmit: handleAdd, onCancel } = props;
-
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-
+  const { modalVisible, onCancel } = props;
   return (
     <Modal
       destroyOnClose
-      title="新建规则"
+      title="新建部门"
       visible={modalVisible}
-      onOk={okHandle}
       onCancel={() => onCancel()}
+      footer={null}
     >
-      <FormItem
-        labelCol={{
-          span: 5,
-        }}
-        wrapperCol={{
-          span: 15,
-        }}
-        label="描述"
-      >
-        {form.getFieldDecorator('desc', {
-          rules: [
-            {
-              required: true,
-              message: '请输入至少五个字符的规则描述！',
-              min: 5,
-            },
-          ],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
+      {props.children}
     </Modal>
   );
 };
 
-export default Form.create()(CreateForm);
+export default CreateForm;
