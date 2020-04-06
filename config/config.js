@@ -151,7 +151,7 @@ export default {
               icon: 'ReadOutlined',
               path: '/dict',
               component: './dict',
-              authority: ['dict'],
+              authority: ['dict1'],
             },
             {
               name: 'users',

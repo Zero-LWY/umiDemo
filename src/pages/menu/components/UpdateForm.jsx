@@ -122,7 +122,7 @@ class UpdateForm extends Component {
       <Modal
         width={640}
         bodyStyle={{
-          padding: '32px 40px 48px',
+          padding: '10px 40px 48px',
         }}
         destroyOnClose
         title="权限配置"
